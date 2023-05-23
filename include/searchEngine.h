@@ -21,7 +21,7 @@ class searchEngine{
     public:
         //Construtor vazio padrao
         searchEngine();
-
+        
         //Testa se ja o indice reverso ja foi construido
         bool alreadyMadeReverseIdx();
         
