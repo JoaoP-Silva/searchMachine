@@ -1,0 +1,8 @@
+#Pdf files
+*.pdf
+
+#output files
+*.out
+
+#.txt files
+*.txt
