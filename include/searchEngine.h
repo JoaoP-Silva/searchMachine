@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <filesystem>
+#include <fstream>
 
 using namespace std;
 
@@ -21,14 +23,21 @@ class searchEngine{
     public:
         //Construtor vazio padrao
         searchEngine();
-        
+
         //Testa se ja o indice reverso ja foi construido
         bool alreadyMadeReverseIdx();
-        
-    private:
-        //Gera o indice reverso a partir de documentos no diretorio ../documentos,
+
+        //Gera o indice reverso a partir de documentos no diretorio ../documentos
         void genReverseIdx();
         
+    private:
+        //Cria um vetor com o caminho de todos os arquivos no diretorio ../documentos
+        vector<string>* filePaths();
+
+        //Normaliza uma string s
+        void normalize(string& s);
+
+    friend class testSearchEngine;
 };
 
 #endif
