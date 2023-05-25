@@ -26,9 +26,17 @@ void testSearchEngine::testInsertItem(){
     cout << "Test insertItem : OK\n";
 }
 
+void testSearchEngine::testAlreadyMadeReverseIdx(){
+    searchEngine a;
+    assert(a.alreadyMadeReverseIdx() == false);
+    a.madeReverseIdx = true;
+    assert(a.alreadyMadeReverseIdx() == true);
+    cout << "Test madeReverseIdx : OK\n";
+}
 int main(){
     testSearchEngine tester;
     tester.testConstructor();
     tester.testNormalize();
     tester.testInsertItem();
+    tester.testAlreadyMadeReverseIdx();
 }

@@ -10,17 +10,16 @@ bool searchEngine::alreadyMadeReverseIdx(){
     return this->madeReverseIdx;
 }
 
-vector<string>* searchEngine::filePaths(){
+void searchEngine::filePaths(vector<string>& filePaths, vector<string>& fileNames){
     string path = filesystem::current_path();
     path += "/../documentos";
-    vector<string>* documentsPaths = new vector<string>;
 
     for(auto& it : filesystem::directory_iterator(path)){
         if(it.path().filename() != ".gitignore"){
-            documentsPaths->push_back(it.path());
+            filePaths.push_back(it.path());
+            fileNames.push_back(it.path().filename());
         }
     }
-    return documentsPaths;
 }
 
 string* searchEngine::normalize(wstring& s){
@@ -57,20 +56,28 @@ string* searchEngine::normalize(wstring& s){
 }
 
 void searchEngine::genReverseIdx(){
-    vector<string>* filePaths = searchEngine::filePaths();
-    for(int i = 0; i < filePaths->size(); i++){
-        string fileName = (*filePaths)[i];
+    vector<string> filePaths, fileNames;
+    searchEngine::filePaths(filePaths, fileNames);
+    for(int i = 0; i < filePaths.size(); i++){
+        string filePath = filePaths[i];
+        string fileName = fileNames[i];
         //Open each path in filePaths
-        wfstream f(fileName, fstream::in);
+        wfstream f(filePath, fstream::in);
         if(f.is_open()){
             while(!f.eof()){
                 wstring word;
                 f >> word;
-                string normalized = *searchEngine::normalize(word);
+                string* normalizedPtr = searchEngine::normalize(word);
+
+                //Copia a string normalizada criada no metodo e apaga o ponteiro
+                string normalized = *normalizedPtr;
+                delete normalizedPtr;
+                
                 searchEngine::insertItem(normalized, fileName);
             }
         }
     }
+    this->madeReverseIdx = true;
 }
 
 void searchEngine::insertItem(string i, string f){

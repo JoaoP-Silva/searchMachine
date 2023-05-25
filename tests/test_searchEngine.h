@@ -9,7 +9,7 @@ class testSearchEngine{
         void testConstructor();
         void testNormalize();
         void testInsertItem();
-        
+        void testAlreadyMadeReverseIdx();
 };
 
 

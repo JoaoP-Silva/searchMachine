@@ -8,6 +8,7 @@
 #include <set>
 #include <filesystem>
 #include <fstream>
+#include <set>
 
 using namespace std;
 
@@ -31,8 +32,9 @@ class searchEngine{
         void genReverseIdx();
         
     private:
-        //Cria um vetor com o caminho de todos os arquivos no diretorio ../documentos
-        vector<string>* filePaths();
+        //Processa o caminho e nome dos arquivos presentes no diretorio ../documentos
+        // e salva nos vetores de string filePaths e fileNames passados por referencia 
+        void filePaths(vector<string>& filePaths, vector<string>& fileNames);
 
         //Retorna uma string normalizada a partir de S
         string* normalize(wstring& s);
