@@ -6,8 +6,17 @@ void testSearchEngine::testConstructor(){
     cout << "Test constructor : OK\n";
 }
 
+void testSearchEngine::testNormalize(){
+    wstring t = L"aÁáÀàÃãÂâÉéÈèÊêÍíÌìÎîÓóÒòÕõÔôÚúÙùÛûÇçÜüÄäÖöËëÏï";
+    searchEngine a;
+    string* r = a.normalize(t);
+    assert(*r == "aaaaaaaaaeeeeeeiiiiiioooooooouuuuuuccuuaaooeeii");
+    delete r;
+    cout << "Test normalize : OK\n";
+}
+
 int main(){
     testSearchEngine tester;
     tester.testConstructor();
-
+    tester.testNormalize();
 }

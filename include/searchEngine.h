@@ -1,5 +1,5 @@
-#ifndef SEARCH_ENGINE_H
-#define SEARCH_ENGINE_H
+#ifndef SEARCHENGINE_H
+#define SEARCHENGINE_H
 
 #include <iostream>
 #include <unordered_map>
@@ -34,8 +34,8 @@ class searchEngine{
         //Cria um vetor com o caminho de todos os arquivos no diretorio ../documentos
         vector<string>* filePaths();
 
-        //Normaliza uma string s
-        void normalize(string& s);
+        //Retorna uma string normalizada a partir de S
+        string* normalize(wstring& s);
 
     friend class testSearchEngine;
 };

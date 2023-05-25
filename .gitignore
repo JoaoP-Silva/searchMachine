@@ -6,3 +6,9 @@
 
 #.txt files
 *.txt
+
+#obj files
+obj/**
+
+#vscode files
+*.vscode

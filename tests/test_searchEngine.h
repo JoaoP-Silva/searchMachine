@@ -7,6 +7,7 @@
 class testSearchEngine{
     public:
         void testConstructor();
+        void testNormalize();
         
 };
 
