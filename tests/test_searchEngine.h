@@ -10,6 +10,7 @@ class testSearchEngine{
         void testNormalize();
         void testInsertItem();
         void testAlreadyMadeReverseIdx();
+        void testQuery();
 };
 
 

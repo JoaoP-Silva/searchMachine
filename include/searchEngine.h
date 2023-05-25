@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <fstream>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,6 +20,8 @@ class searchEngine{
 
         //Atributo madeReverseIndex para salvar se o indice reverso ja foi construido
         bool madeReverseIdx;
+        //Atributo para salvar o numero de documentos mapeados
+        int numFiles;
 
     //Metodos
     public:
@@ -30,6 +33,9 @@ class searchEngine{
 
         //Gera o indice reverso a partir de documentos no diretorio ../documentos
         void genReverseIdx();
+
+        //Realiza consulta de um conjunto de palavras s e salva o resultado em um vetor res 
+        void query(set<string> s, vector<string>& res);
         
     private:
         //Processa o caminho e nome dos arquivos presentes no diretorio ../documentos

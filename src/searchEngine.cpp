@@ -3,7 +3,8 @@
 using namespace std;
 
 searchEngine::searchEngine(){
-    madeReverseIdx = false;
+    this->madeReverseIdx = false;
+    this->numFiles = 0;
 }
 
 bool searchEngine::alreadyMadeReverseIdx(){
@@ -78,6 +79,7 @@ void searchEngine::genReverseIdx(){
         }
     }
     this->madeReverseIdx = true;
+    this->numFiles = fileNames.size();
 }
 
 void searchEngine::insertItem(string i, string f){
@@ -93,5 +95,49 @@ void searchEngine::insertItem(string i, string f){
         }else{
             stringToCount[f]+=1;
         }
+    }
+}
+
+
+
+//Comparador para ordenar vetor de pares int e string 
+struct greater_than_key
+{
+    inline bool operator() (const pair<int, string>& v1, const pair<int, string>& v2)
+    {
+        if(v1.first < v2.first){
+            return (v2.first < v1.first);
+        }else{
+            return (v2.second > v1.second);
+        }
+    }
+};
+
+void searchEngine::query(set<string> s, vector<string>& res){
+    vector<pair<int, string>> finded;
+    unordered_map<string, int> findedIdx;
+    int currIdx = 0;
+
+    for(auto it = s.begin(); it != s.end(); it++){
+        string word = *it;
+        unordered_map<string, int> fileToCount = this->reverseIdx[word];
+        if(fileToCount.size() < this->numFiles){ continue; }
+        for(auto& it : fileToCount){
+            string file = it.first; 
+            int count = it.second;
+            if(findedIdx.find(file) == findedIdx.end()){
+                findedIdx.insert(make_pair(file, currIdx));
+                currIdx++;
+                finded.push_back(make_pair(count, file));
+            }else{
+                int i = findedIdx[file];
+                finded[i].first += count;
+            }
+        }
+    }
+    sort(finded.begin(), finded.end(), greater_than_key());
+
+    for(int i = finded.size() - 1; i >= 0; i--){
+        res.push_back(finded[i].second);
     }
 }

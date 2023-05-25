@@ -3,6 +3,7 @@
 void testSearchEngine::testConstructor(){
     searchEngine a;
     assert(a.alreadyMadeReverseIdx() == false);
+    assert(a.numFiles == 0);
     cout << "Test constructor : OK\n";
 }
 
@@ -33,10 +34,34 @@ void testSearchEngine::testAlreadyMadeReverseIdx(){
     assert(a.alreadyMadeReverseIdx() == true);
     cout << "Test madeReverseIdx : OK\n";
 }
+
+void testSearchEngine::testQuery(){
+    string f1 = "teste1"; 
+    string f2 = "teste2";
+    string word =  "banana";
+
+    vector<string> a;
+    a.push_back(f1);
+    a.push_back(f2);
+
+    searchEngine s;
+    s.insertItem(word, f1);
+    s.insertItem(word, f2);  
+    s.numFiles = 2;
+
+    vector<string> res;
+    set<string> q = {"banana"};
+    s.query(q, res);
+    assert(res == a);
+    cout << "Test Query : OK\n";
+}
+
+
 int main(){
     testSearchEngine tester;
     tester.testConstructor();
     tester.testNormalize();
     tester.testInsertItem();
     tester.testAlreadyMadeReverseIdx();
+    tester.testQuery();
 }
