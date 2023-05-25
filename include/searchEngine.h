@@ -37,6 +37,9 @@ class searchEngine{
         //Retorna uma string normalizada a partir de S
         string* normalize(wstring& s);
 
+        //Insere item i lido no arquivo f no indice reverso
+        void insertItem(string i, string f);
+
     friend class testSearchEngine;
 };
 

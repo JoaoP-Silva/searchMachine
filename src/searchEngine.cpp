@@ -38,8 +38,7 @@ string* searchEngine::normalize(wstring& s){
     {L'Í', 'i'}, {L'Ì', 'i'}, {L'Î', 'i'}, {L'Ï', 'i'},
     {L'Ó', 'o'}, {L'Ò', 'o'}, {L'Õ', 'o'}, {L'Ô', 'o'}, {L'Ö', 'o'},
     {L'Ú', 'u'}, {L'Ù', 'u'}, {L'Û', 'u'}, {L'Ü', 'u'},
-    {L'Ç', 'c'}, {L'ñ', 'n'}, {L'Ñ', 'n'}
-};
+    {L'Ç', 'c'}, {L'ñ', 'n'}, {L'Ñ', 'n'}   };
     string* normalizedString = new string;
     wchar_t letter;
     for(unsigned i = 0; i < s.length(); i++){
@@ -60,14 +59,32 @@ string* searchEngine::normalize(wstring& s){
 void searchEngine::genReverseIdx(){
     vector<string>* filePaths = searchEngine::filePaths();
     for(int i = 0; i < filePaths->size(); i++){
+        string fileName = (*filePaths)[i];
         //Open each path in filePaths
-        wfstream f((*filePaths)[i], fstream::in);
+        wfstream f(fileName, fstream::in);
         if(f.is_open()){
             while(!f.eof()){
                 wstring word;
                 f >> word;
-                searchEngine::normalize(word);
+                string normalized = *searchEngine::normalize(word);
+                searchEngine::insertItem(normalized, fileName);
             }
+        }
+    }
+}
+
+void searchEngine::insertItem(string i, string f){
+    auto it = this->reverseIdx.find(i);
+    if(it == this->reverseIdx.end()){
+        unordered_map<string, int> stringToCount = { {f, 1} };
+        this->reverseIdx.insert(make_pair(i, stringToCount));
+    }else{
+        unordered_map<string, int>& stringToCount = it->second;
+        auto it2 = stringToCount.find(f);
+        if(it2 == stringToCount.end()){
+            stringToCount.insert(make_pair(f, 1));
+        }else{
+            stringToCount[f]+=1;
         }
     }
 }

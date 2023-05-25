@@ -15,8 +15,20 @@ void testSearchEngine::testNormalize(){
     cout << "Test normalize : OK\n";
 }
 
+void testSearchEngine::testInsertItem(){
+    string i = "teste";
+    string f = "arquivo";
+    searchEngine a;
+    a.insertItem(i, f);
+    assert(a.reverseIdx[i][f] == 1);
+    a.insertItem(i, f);
+    assert(a.reverseIdx[i][f] == 2);
+    cout << "Test insertItem : OK\n";
+}
+
 int main(){
     testSearchEngine tester;
     tester.testConstructor();
     tester.testNormalize();
+    tester.testInsertItem();
 }
