@@ -8,7 +8,7 @@ void testSearchEngine::testConstructor(){
 }
 
 void testSearchEngine::testNormalize(){
-    wstring t = L"aÁáÀàÃãÂâÉéÈèÊêÍíÌìÎîÓóÒòÕõÔôÚúÙùÛûÇçÜüÄäÖöËëÏï";
+    string t = "aÁáÀàÃãÂâÉéÈèÊêÍíÌìÎîÓóÒòÕõÔôÚúÙùÛûÇçÜüÄäÖöËëÏï";
     searchEngine a;
     string* r = a.normalize(t);
     assert(*r == "aaaaaaaaaeeeeeeiiiiiioooooooouuuuuuccuuaaooeeii");

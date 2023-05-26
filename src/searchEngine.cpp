@@ -13,7 +13,7 @@ bool searchEngine::alreadyMadeReverseIdx(){
 
 void searchEngine::filePaths(vector<string>& filePaths, vector<string>& fileNames){
     string path = filesystem::current_path();
-    path += "/../documentos";
+    path += "/documentos";
 
     for(auto& it : filesystem::directory_iterator(path)){
         if(it.path().filename() != ".gitignore"){
@@ -23,9 +23,7 @@ void searchEngine::filePaths(vector<string>& filePaths, vector<string>& fileName
     }
 }
 
-string* searchEngine::normalize(wstring& s){
-
-    //Mapeia todos os caracteres especiais até o seu caractere normalizado resultante
+string* searchEngine::normalize(string s){
     unordered_map<wchar_t, char> specialCharMap = {
     {L'á', 'a'}, {L'à', 'a'}, {L'ã', 'a'}, {L'â', 'a'}, {L'ä', 'a'},
     {L'é', 'e'}, {L'è', 'e'}, {L'ê', 'e'}, {L'ë', 'e'},
@@ -39,18 +37,22 @@ string* searchEngine::normalize(wstring& s){
     {L'Ó', 'o'}, {L'Ò', 'o'}, {L'Õ', 'o'}, {L'Ô', 'o'}, {L'Ö', 'o'},
     {L'Ú', 'u'}, {L'Ù', 'u'}, {L'Û', 'u'}, {L'Ü', 'u'},
     {L'Ç', 'c'}, {L'ñ', 'n'}, {L'Ñ', 'n'}   };
+    
     string* normalizedString = new string;
-    wchar_t letter;
-    for(unsigned i = 0; i < s.length(); i++){
-        letter = s.at(i);
-        auto it = specialCharMap.find(letter);
-        if(it != specialCharMap.end()){ 
-            normalizedString->push_back(it->second);
-        }
-        
-        else if(isalnum(s[i])){
-            char letter = (char)tolower(s[i]);
-            normalizedString->push_back(letter);
+
+    wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    wstring word = converter.from_bytes(s);
+
+    for(unsigned i = 0; i < word.length(); i++){
+        wchar_t letter = word.at(i);
+        if(iswalnum(letter)){
+            char l = towlower(letter);
+            normalizedString->push_back(l);
+        }else{
+            auto it = specialCharMap.find(letter);
+            if(it != specialCharMap.end()){
+                normalizedString->push_back(it->second);
+            }
         }
     }
     return normalizedString;
@@ -63,10 +65,10 @@ void searchEngine::genReverseIdx(){
         string filePath = filePaths[i];
         string fileName = fileNames[i];
         //Open each path in filePaths
-        wfstream f(filePath, fstream::in);
+        fstream f(filePath, fstream::in);
         if(f.is_open()){
             while(!f.eof()){
-                wstring word;
+                string word;
                 f >> word;
                 string* normalizedPtr = searchEngine::normalize(word);
 
@@ -137,7 +139,7 @@ void searchEngine::query(set<string> s, vector<string>& res){
     }
     sort(finded.begin(), finded.end(), greater_than_key());
 
-    for(int i = finded.size() - 1; i >= 0; i--){
+    for(int i = 0 ; i < finded.size(); i++){
         res.push_back(finded[i].second);
     }
 }

@@ -51,6 +51,7 @@ all: $(PROGRAM)
 test: $(TEST_PROGRAM)
 
 clean:
-	rm -f $(OBJDIR)/*.out
 	rm -f $(PROGRAM)
 	rm -f $(TEST_PROGRAM)
+	rm -f $(OBJDIR)/*.o
+	

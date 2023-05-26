@@ -10,6 +10,8 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
+#include <locale>
+#include <codecvt>
 
 using namespace std;
 
@@ -43,7 +45,7 @@ class searchEngine{
         void filePaths(vector<string>& filePaths, vector<string>& fileNames);
 
         //Retorna uma string normalizada a partir de S
-        string* normalize(wstring& s);
+        string* normalize(string s);
 
         //Insere item i lido no arquivo f no indice reverso
         void insertItem(string i, string f);
