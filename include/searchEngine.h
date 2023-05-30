@@ -10,7 +10,6 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
-#include <locale>
 #include <codecvt>
 
 using namespace std;
@@ -22,8 +21,6 @@ class searchEngine{
 
         //Atributo madeReverseIndex para salvar se o indice reverso ja foi construido
         bool madeReverseIdx;
-        //Atributo para salvar o numero de documentos mapeados
-        int numFiles;
 
     //Metodos
     public:

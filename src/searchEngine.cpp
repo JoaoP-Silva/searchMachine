@@ -4,7 +4,6 @@ using namespace std;
 
 searchEngine::searchEngine(){
     this->madeReverseIdx = false;
-    this->numFiles = 0;
 }
 
 bool searchEngine::alreadyMadeReverseIdx(){
@@ -81,7 +80,6 @@ void searchEngine::genReverseIdx(){
         }
     }
     this->madeReverseIdx = true;
-    this->numFiles = fileNames.size();
 }
 
 void searchEngine::insertItem(string i, string f){
@@ -118,14 +116,21 @@ struct greater_than_key
 void searchEngine::query(set<string> s, vector<string>& res){
     vector<pair<int, string>> finded;
     unordered_map<string, int> findedIdx;
+    unordered_map<string, int> documentCounter;
     int currIdx = 0;
 
     for(auto it = s.begin(); it != s.end(); it++){
         string word = *it;
         unordered_map<string, int> fileToCount = this->reverseIdx[word];
-        if(fileToCount.size() < this->numFiles){ continue; }
         for(auto& it : fileToCount){
-            string file = it.first; 
+            string file = it.first;
+
+            //Conta o numero de palavras que foi encontrado em um documento
+            auto doc = documentCounter.find(file);
+            if(doc == documentCounter.end()){
+                documentCounter.insert(make_pair(file, 1));
+            }else{ documentCounter[file] += 1; }
+
             int count = it.second;
             if(findedIdx.find(file) == findedIdx.end()){
                 findedIdx.insert(make_pair(file, currIdx));
@@ -137,9 +142,18 @@ void searchEngine::query(set<string> s, vector<string>& res){
             }
         }
     }
+
+    //Se algum documento nao possuir todas as palavras da consulta, e ignorado
+    for(int i = 0 ; i < finded.size(); i++){
+        string file = finded[i].second;
+        if(documentCounter[file] < s.size()){
+            finded[i].first = -1;
+        }
+    }
+
     sort(finded.begin(), finded.end(), greater_than_key());
 
     for(int i = 0 ; i < finded.size(); i++){
-        res.push_back(finded[i].second);
+        if(finded[i].first >= 1){ res.push_back(finded[i].second); }
     }
 }

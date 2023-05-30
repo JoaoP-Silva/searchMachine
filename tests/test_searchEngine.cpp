@@ -3,7 +3,6 @@
 void testSearchEngine::testConstructor(){
     searchEngine a;
     assert(a.alreadyMadeReverseIdx() == false);
-    assert(a.numFiles == 0);
     cout << "Test constructor : OK\n";
 }
 
@@ -47,7 +46,6 @@ void testSearchEngine::testQuery(){
     searchEngine s;
     s.insertItem(word, f1);
     s.insertItem(word, f2);  
-    s.numFiles = 2;
 
     vector<string> res;
     set<string> q = {"banana"};
@@ -55,7 +53,6 @@ void testSearchEngine::testQuery(){
     assert(res == a);
     cout << "Test Query : OK\n";
 }
-
 
 int main(){
     testSearchEngine tester;
