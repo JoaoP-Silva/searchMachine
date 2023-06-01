@@ -12,3 +12,7 @@ obj/**
 
 #vscode files
 *.vscode
+
+#Dont ignore test files
+!/documentos/teste1.txt
+!/documentos/teste2.txt

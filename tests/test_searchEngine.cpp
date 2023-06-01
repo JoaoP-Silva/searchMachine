@@ -54,6 +54,14 @@ void testSearchEngine::testQuery(){
     cout << "Test Query : OK\n";
 }
 
+void testSearchEngine::testGenReverseIdx(){
+    searchEngine a;
+    a.genReverseIdx();
+    assert(a.reverseIdx["teste"]["teste1.txt"] == 1);
+    assert(a.reverseIdx["um"]["teste1.txt"] == 1);
+    assert(a.reverseIdx["teste"]["teste2.txt"] == 2);
+}
+
 int main(){
     testSearchEngine tester;
     tester.testConstructor();
@@ -61,4 +69,5 @@ int main(){
     tester.testInsertItem();
     tester.testAlreadyMadeReverseIdx();
     tester.testQuery();
+    tester.testGenReverseIdx();
 }

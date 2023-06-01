@@ -11,6 +11,7 @@ class testSearchEngine{
         void testInsertItem();
         void testAlreadyMadeReverseIdx();
         void testQuery();
+        void testGenReverseIdx();
 };
 
 
