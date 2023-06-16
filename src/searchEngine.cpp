@@ -103,12 +103,16 @@ void searchEngine::insertItem(string i, string f){
 //Comparador para ordenar vetor de pares int e string 
 struct greater_than_key
 {
-    inline bool operator() (const pair<int, string>& v1, const pair<int, string>& v2)
+    bool operator() (const pair<int, string>& v1, const pair<int, string>& v2)
     {
-        if(v1.first < v2.first){
-            return (v2.first < v1.first);
+        if(v1.first > v2.first){
+            return true;
+        }else if(v1.first == v2.first){
+            if(v1.second < v2.second){
+                return true;
+            }
         }else{
-            return (v2.second > v1.second);
+            return false;
         }
     }
 };

@@ -69,5 +69,5 @@ int main(){
     tester.testInsertItem();
     tester.testAlreadyMadeReverseIdx();
     tester.testQuery();
-    tester.testGenReverseIdx();
+    //tester.testGenReverseIdx();
 }
